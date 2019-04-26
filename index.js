@@ -1,18 +1,21 @@
 // Import Express
 const express = require("express");
 
+// Use Express
+let app = express();
+
 // Routes
 const projectRoutes = require("./routes/projectRoutes");
 const actionRoutes = require("./routes/actionRoutes");
 
 // Middleware
-server.use(express.json());
+app.use(express.json());
 
 // Use Routes
-server.use("/api/projects", projectRoutes);
-server.use("/api/actions", actionRoutes);
+app.use("/api/projects", projectRoutes);
+app.use("/api/actions", actionRoutes);
 
-// Run Server
-server.listen(3000, () => {
-  console.log("server running");
+// Run server
+app.listen(3000, () => {
+  console.log("servers running");
 });
