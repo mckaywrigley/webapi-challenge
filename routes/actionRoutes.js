@@ -13,23 +13,42 @@ const Action = require("../data/helpers/actionModel");
 
 // Read
 router.get("/", (req, res) => {
-  Project.get()
-    .then(projects => {
-      res.status(200).json(projects);
+  Action.get()
+    .then(actions => {
+      res.status(200).json(actions);
     })
     .catch(err => {
-      res.status(500).json({ error: "Projects could not be retrieved." });
+      res.status(500).json({ error: "Actions could not be retrieved." });
     });
 });
 
 router.get("/:id", (req, res) => {
   const { id } = req.body;
-  Project.get(id)
-    .then(project => {
-      res.status(200).json(project);
+  Action.get(id)
+    .then(action => {
+      res.status(200).json(action);
     })
     .catch(err => {
-      res.status(500).json({ error: "Project info could not be retrieved." });
+      res.status(500).json({ error: "Action info could not be retrieved." });
+    });
+});
+
+// Create
+router.post("/", (req, res) => {
+  const { notes, description, completed } = req.body;
+  if (!notes || !description) {
+    res.status(400).json({
+      error: "Please provide notes and a description for the project."
+    });
+  }
+  Project.insert({ notes, description, completed })
+    .then(action => {
+      res.status(201).json(action);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: "There was an error while creating the project." });
     });
 });
 
