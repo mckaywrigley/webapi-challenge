@@ -23,7 +23,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
   Project.get(id)
     .then(project => {
       res.status(200).json(project);
@@ -34,7 +34,7 @@ router.get("/:id", (req, res) => {
 });
 
 router.get("/:id/actions", (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
   Project.getProjectActions(id)
     .then(project => {
       res.status(200).json(project);

@@ -23,7 +23,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
   Action.get(id)
     .then(action => {
       res.status(200).json(action);
@@ -80,8 +80,8 @@ router.put("/:id", (req, res) => {
     });
   }
   Action.update(id, { notes, description, completed, project_id })
-    .then(project => {
-      if (project === 0) {
+    .then(action => {
+      if (action === 0) {
         res.status(404).json({
           message: "The action with the provided ID does not exists."
         });
