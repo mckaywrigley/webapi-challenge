@@ -35,13 +35,14 @@ router.get("/:id", (req, res) => {
 
 // Create
 router.post("/", (req, res) => {
-  const { notes, description, completed } = req.body;
-  if (!notes || !description) {
+  const { notes, description, completed, project_id } = req.body;
+  if (!notes || !description || !project_id) {
     res.status(400).json({
-      error: "Please provide notes and a description for the project."
+      error:
+        "Please provide project_id, notes, and a description for the project."
     });
   }
-  Action.insert({ notes, description, completed })
+  Action.insert({ notes, description, completed, project_id })
     .then(action => {
       res.status(201).json(action);
     })
@@ -72,13 +73,13 @@ router.delete("/:id", (req, res) => {
 // Update
 router.put("/:id", (req, res) => {
   const { id } = req.params;
-  const { notes, description, completed } = req.body;
-  if (!notes || !description) {
+  const { notes, description, completed, project_id } = req.body;
+  if (!notes || !description || !project_id) {
     res.status(400).json({
-      error: "Please provide notes and description for the action."
+      error: "Please provide project id, notes, and description for the action."
     });
   }
-  Action.update(id, { notes, description, completed })
+  Action.update(id, { notes, description, completed, project_id })
     .then(project => {
       if (project === 0) {
         res.status(404).json({
