@@ -33,6 +33,19 @@ router.get("/:id", (req, res) => {
     });
 });
 
+router.get("/:id/actions", (req, res) => {
+  const { id } = req.body;
+  Project.getProjectActions(id)
+    .then(project => {
+      res.status(200).json(project);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: "Actions for project could not be retrieved." });
+    });
+});
+
 // Create
 router.post("/", (req, res) => {
   const { name, description, completed } = req.body;
