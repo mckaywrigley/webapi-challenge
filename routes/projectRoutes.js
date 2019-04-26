@@ -13,7 +13,6 @@ const Project = require("../data/helpers/projectModel");
 
 // Read
 router.get("/", (req, res) => {
-  // const {name, description, completed} = req.body;
   Project.get()
     .then(projects => {
       res.status(200).json(projects);
@@ -35,6 +34,23 @@ router.get("/:id", (req, res) => {
 });
 
 // Create
+router.post("/", (req, res) => {
+  const { name, description, completed } = req.body;
+  if (!name || !description) {
+    res.status(400).json({
+      error: "Please provide a name and description for the project."
+    });
+  }
+  Project.insert({ name, description, completed })
+    .then(project => {
+      res.status(201).json(project);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: "There was an error while creating the project." });
+    });
+});
 
 // Destroy
 
