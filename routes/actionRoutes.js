@@ -69,5 +69,28 @@ router.delete("/:id", (req, res) => {
     });
 });
 
+// Update
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const { notes, description, completed } = req.body;
+  if (!notes || !description) {
+    res.status(400).json({
+      error: "Please provide notes and description for the action."
+    });
+  }
+  Action.update(id, { notes, description, completed })
+    .then(project => {
+      if (project === 0) {
+        res.status(404).json({
+          message: "The action with the provided ID does not exists."
+        });
+      }
+      res.status(200).json(action);
+    })
+    .catch(err => {
+      res.status(500).json({ error: "The action could not be updated." });
+    });
+});
+
 // Export
 module.exports = router;
