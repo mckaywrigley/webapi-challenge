@@ -41,7 +41,7 @@ router.post("/", (req, res) => {
       error: "Please provide notes and a description for the project."
     });
   }
-  Project.insert({ notes, description, completed })
+  Action.insert({ notes, description, completed })
     .then(action => {
       res.status(201).json(action);
     })
@@ -49,6 +49,23 @@ router.post("/", (req, res) => {
       res
         .status(500)
         .json({ error: "There was an error while creating the project." });
+    });
+});
+
+// Destroy
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  Action.remove(id)
+    .then(action => {
+      if (action === 0) {
+        res.status(404).json({
+          message: "The action with the provided ID does not exists."
+        });
+      }
+      res.status(204).end();
+    })
+    .catch(err => {
+      res.status(500).json({ error: "The action could not be removed." });
     });
 });
 
