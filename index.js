@@ -1,8 +1,10 @@
 // Import Express
 const express = require("express");
+var cors = require("cors");
 
 // Use Express
 let app = express();
+app.use(cors());
 
 // Routes
 const projectRoutes = require("./routes/projectRoutes");
